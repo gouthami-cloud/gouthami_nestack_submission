@@ -1,51 +1,62 @@
 
+
+import pytest
+from fastapi.security import HTTPAuthorizationCredentials
+
+import app.database as database
+from app.database import initialize_db
+from app.auth.sessions import create_session
+from app.auth.dependencies import get_current_user
 from fastapi import HTTPException
 
-from app.database import get_connection
-from app.auth.sessions import create_session, revoke_session
-from app.auth.dependencies import get_current_user
 
-# Create a temporary test user
-with get_connection() as conn:
-    cursor = conn.execute(
-        """
-        INSERT INTO users (username, password_hash)
-        VALUES (?, ?)
-        """,
-        ("dependency_test_user", "test_hash")
-    )
-    user_id = cursor.lastrowid
+@pytest.fixture
+def test_database(tmp_path, monkeypatch):
+    test_db = tmp_path / "test.db"
+    monkeypatch.setattr(database, "DB_PATH", test_db)
+    initialize_db()
 
-try:
-    token = create_session(user_id)
-
-    # Test valid token
-    user = get_current_user("Bearer " + token)
-    print("Valid token accepted:", user["id"] == user_id)
-
-    # Test invalid token
-    try:
-        get_current_user("Bearer invalid_token")
-    except HTTPException as error:
-        print("Invalid token rejected:", error.status_code == 401)
-
-    # Test missing token
-    try:
-        get_current_user(None)
-    except HTTPException as error:
-        print("Missing token rejected:", error.status_code == 401)
-
-    # Test revoked token
-    revoke_session(token)
-
-    try:
-        get_current_user("Bearer " + token)
-    except HTTPException as error:
-        print("Revoked token rejected:", error.status_code == 401)
-
-finally:
-    with get_connection() as conn:
-        conn.execute(
-            "DELETE FROM users WHERE id = ?",
-            (user_id,)
+    with database.get_connection() as conn:
+        cursor = conn.execute(
+            """
+            INSERT INTO users (username, password_hash, role)
+            VALUES (?, ?, ?)
+            """,
+            ("dependency_test", "test_hash", "user")
         )
+        user_id = cursor.lastrowid
+
+    return user_id
+
+
+def test_valid_session_is_accepted(test_database):
+    token = create_session(test_database)
+
+    credentials = HTTPAuthorizationCredentials(
+        scheme="Bearer",
+        credentials=token
+    )
+
+    user = get_current_user(credentials)
+
+    assert user["id"] == test_database
+    assert user["username"] == "dependency_test"
+
+
+def test_invalid_session_is_rejected():
+    credentials = HTTPAuthorizationCredentials(
+        scheme="Bearer",
+        credentials="invalid_token"
+    )
+
+    with pytest.raises(HTTPException) as error:
+        get_current_user(credentials)
+
+    assert error.value.status_code == 401
+
+
+def test_missing_credentials_are_rejected():
+    with pytest.raises(HTTPException) as error:
+        get_current_user(None)
+
+    assert error.value.status_code == 401
