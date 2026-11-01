@@ -4,7 +4,7 @@
 - I am Gouthami. I am a certified Google Cloud Security Engineer.
 - **LinkedIn:** [linkedin.com/in/gouthami-gcp](https://www.linkedin.com/in/gouthami-gcp/)
 
-## Certifications
+## My Certifications
 
 | Badge | Certification | Validity | Skills / Details | Credential |
 | :---: | :--- | :--- | :--- | :---: |
