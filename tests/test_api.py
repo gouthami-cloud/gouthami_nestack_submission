@@ -155,7 +155,9 @@ def test_account_lockout_after_five_failed_attempts():
         )
 
     assert response.status_code == 429
+
 def test_registration_cannot_assign_admin_role():
+    # Privilege escalation rule: passing role must return 403 Forbidden
     response = client.post(
         "/register",
         json={
@@ -165,7 +167,19 @@ def test_registration_cannot_assign_admin_role():
         }
     )
 
+    assert response.status_code == 403
+
+def test_registration_rejects_unexpected_extra_fields():
+    response = client.post(
+        "/register",
+        json={
+            "username": "pytest_extra_field",
+            "password": "SecurePassword123",
+            "malicious_payload": "injected"
+        }
+    )
     assert response.status_code == 400
+
 def test_registration_rejects_short_password():
     response = client.post(
         "/register",
@@ -175,6 +189,7 @@ def test_registration_rejects_short_password():
         }
     )
     assert response.status_code == 400
+
 def test_record_rejects_oversized_title():
     user = {
         "username": "pytest_long_title",
@@ -195,3 +210,47 @@ def test_record_rejects_oversized_title():
     )
 
     assert response.status_code == 400
+
+def test_logout_revokes_session():
+    user = {
+        "username": "pytest_logout_user",
+        "password": "SecurePassword123"
+    }
+
+    client.post("/register", json=user)
+    login = client.post("/login", json=user)
+    token = login.json()["session_token"]
+
+    # Verify access with active token
+    record = client.post(
+        "/records",
+        json={"title": "Pre-logout Record", "body": "Allowed data"},
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    assert record.status_code == 201
+
+    # Log out
+    logout_resp = client.post(
+        "/logout",
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    assert logout_resp.status_code == 200
+
+    # Token must be rejected with 401 after logout
+    blocked_resp = client.post(
+        "/records",
+        json={"title": "Post-logout Record", "body": "Should fail"},
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    assert blocked_resp.status_code == 401
+
+def test_sql_injection_defense():
+    # Attempt SQL injection on login
+    response = client.post(
+        "/login",
+        json={
+            "username": "admin' OR '1'='1",
+            "password": "' OR '1'='1"
+        }
+    )
+    assert response.status_code == 401

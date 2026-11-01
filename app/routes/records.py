@@ -1,6 +1,6 @@
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from app.database import get_connection
 from app.auth.dependencies import get_current_user
@@ -9,6 +9,8 @@ router = APIRouter()
 
 
 class RecordCreate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     title: str = Field(min_length=1, max_length=100)
     body: str = Field(min_length=1, max_length=5000)
 

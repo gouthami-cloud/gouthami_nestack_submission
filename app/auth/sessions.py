@@ -3,10 +3,10 @@ import hashlib
 import secrets
 import time
 
+from app.config import SESSION_DURATION_SECONDS
 from app.database import get_connection
 
-
-SESSION_DURATION = 60 * 60  # 1 hour
+SESSION_DURATION = SESSION_DURATION_SECONDS
 
 
 def create_session(user_id: int) -> str:

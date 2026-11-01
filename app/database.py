@@ -1,13 +1,11 @@
 
+from contextlib import contextmanager
 import sqlite3
 from pathlib import Path
+from app.config import DATABASE_PATH
 
-# Database file in the project root
-BASE_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = BASE_DIR / "nestack.db"
-
-
-from contextlib import contextmanager
+# Expose DB_PATH so tests monkeypatching database.DB_PATH continue working seamlessly
+DB_PATH = DATABASE_PATH
 
 @contextmanager
 def get_connection():
@@ -15,6 +13,8 @@ def get_connection():
     connection.row_factory = sqlite3.Row
     connection.execute("PRAGMA foreign_keys = ON")
     connection.execute("PRAGMA busy_timeout = 10000")
+    connection.execute("PRAGMA journal_mode = WAL")
+    connection.execute("PRAGMA synchronous = NORMAL")
 
     try:
         yield connection
