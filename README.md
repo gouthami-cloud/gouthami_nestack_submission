@@ -6,24 +6,12 @@
 
 ## Certifications
 
-- **Professional Cloud Security Engineer Certification** — Google
-  - **Issued:** Mar 2025 · **Expires:** Mar 2027
-  - **Skills:** Python (Programming Language)
-  - **Credential:** [Show Credential](https://www.credly.com/badges/6ce3d22a-55e5-4209-a656-2d5a7d30328a)
-
-- **Associate Cloud Engineer Certification** — Google
-  - **Issued:** Jan 2025 · **Expires:** Jan 2028
-  - **Skills:** Vulnerability Assessment and Penetration Testing (VAPT), Python (Programming Language)
-  - **Credential:** [Show Credential](https://www.credly.com/badges/24271424-18c5-4a3f-a0ac-67dd7ffcc120)
-
-- **Cloud Digital Leader Certification** — Google
-  - **Issued:** Dec 2024 · **Expires:** Dec 2027
-  - **Credential:** [Show Credential](https://www.credly.com/badges/aca95c45-ce24-44e8-8d10-157bd3300e9d)
-
-- **Certified Cloud Security Professional (CCSP)** — Google
-  - **Issued:** Oct 2024
-  - **Credential ID:** 12370362
-  - **Credential:** [Show Credential](https://www.cloudskillsboost.google/public_profiles/f5b3d251-bd7b-4820-8c3c-5ab1b1c9b755/badges/12370362)
+| Badge | Certification | Validity | Skills / Details | Credential |
+| :---: | :--- | :--- | :--- | :---: |
+| <a href="https://www.credly.com/badges/6ce3d22a-55e5-4209-a656-2d5a7d30328a"><img src="https://images.credly.com/size/340x340/images/4ea0ec5c-6258-4c26-9282-6ed233c0c7ac/image.png" width="75" alt="Professional Cloud Security Engineer" /></a> | **Professional Cloud Security Engineer**<br>Google | Issued Mar 2025<br>Expires Mar 2027 | Python (Programming Language) | [Show Credential](https://www.credly.com/badges/6ce3d22a-55e5-4209-a656-2d5a7d30328a) |
+| <a href="https://www.credly.com/badges/24271424-18c5-4a3f-a0ac-67dd7ffcc120"><img src="https://images.credly.com/size/340x340/images/08096465-cbfc-4c3e-93e5-93c5aa61f23e/image.png" width="75" alt="Associate Cloud Engineer" /></a> | **Associate Cloud Engineer**<br>Google | Issued Jan 2025<br>Expires Jan 2028 | Vulnerability Assessment and Penetration Testing (VAPT), Python | [Show Credential](https://www.credly.com/badges/24271424-18c5-4a3f-a0ac-67dd7ffcc120) |
+| <a href="https://www.credly.com/badges/aca95c45-ce24-44e8-8d10-157bd3300e9d"><img src="https://images.credly.com/size/340x340/images/44994cda-b5b0-44cb-9a6d-d29b57163073/image.png" width="75" alt="Cloud Digital Leader" /></a> | **Cloud Digital Leader**<br>Google | Issued Dec 2024<br>Expires Dec 2027 | Google Cloud Platform Fundamentals | [Show Credential](https://www.credly.com/badges/aca95c45-ce24-44e8-8d10-157bd3300e9d) |
+| <a href="https://www.cloudskillsboost.google/public_profiles/f5b3d251-bd7b-4820-8c3c-5ab1b1c9b755/badges/12370362"><img src="https://cdn.qwiklabs.com/40DWgR6ckA%2FXi0LsQN8eB%2FkNoiWgT0TxC6GTa00d%2Bj0%3D" width="75" alt="Certified Cloud Security Professional" /></a> | **Certified Cloud Security Professional (CCSP)**<br>Google | Issued Oct 2024 | Credential ID: `12370362` | [Show Credential](https://www.cloudskillsboost.google/public_profiles/f5b3d251-bd7b-4820-8c3c-5ab1b1c9b755/badges/12370362) |
 
 ## About this project
 
